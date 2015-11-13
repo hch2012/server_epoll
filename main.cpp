@@ -18,11 +18,14 @@ void* insert(void* args){
 }
 int main(int argc, char const *argv[])
 {	
+
 	string host="127.0.0.1";
 	string username="root";
 	string password="hch123";
 	string database="aaa";
-	
+	if(argc>1)
+		host=argv[1];
+
 	pool=new SqlPool(host,username, password, database,3306);
 	pool->generate(5);
 	pthread_t t[20];
