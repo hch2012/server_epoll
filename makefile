@@ -3,7 +3,7 @@ mysql_config=`mysql_config --include`  `mysql_config --libs`
 
 main:${objs}
 	g++ -g -o  main  ${objs} ${mysql_config}
-main.0:
+main.o:
 	g++ -g -c main.cpp ${mysql_config}
 sql_node.o:sql_node.h
 	g++ -g -c sql_node.cpp sql_node.h ${mysql_config}
