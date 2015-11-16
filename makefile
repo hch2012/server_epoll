@@ -18,3 +18,5 @@ one_task.o:task.h
 	g++ -g -c one_task.cpp ${debug}
 log4c.o:log4c.h
 	g++ -g -c log4c.cpp log4c.h ${debug}
+clean:
+	rm *.o;rm *.gch;
