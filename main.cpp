@@ -3,8 +3,12 @@
 #include <string>
 #include <cstdio>
 #include <unistd.h>
+#include "thread_pool.h"
+#include "one_task.h"
+#include <sstream>
 using namespace std;
 SqlPool* pool=NULL;
+void testThreadPool(int argc, char const *argv[]);
 void* insert(void* args){
 	//printf("111");
 	char sql[]="insert into bbb(name) values('ccc')";
@@ -18,7 +22,22 @@ void* insert(void* args){
 }
 int main(int argc, char const *argv[])
 {	
+	testThreadPool(argc,argv);
+}
+void testThreadPool(int argc, char const *argv[]){
+	ThreadPool* pool=new ThreadPool(100);
+	string str="task ";
+	ostringstream stream;
+	for(int i=0;i<100000;i++){
+		stream<<str<<i;
+		string tmp=stream.str();
+		stream.str("");
+		pool->pushTask(new OneTask(tmp));
+	}
+	sleep(1000);
+}
 
+void testSqlPool(int argc, char const *argv[]){
 	string host="127.0.0.1";
 	string username="root";
 	string password="hch123";
