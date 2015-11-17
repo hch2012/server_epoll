@@ -63,6 +63,7 @@ void testSqlPool(int argc, char const *argv[]){
 }
 void testEpoll(){
     int epfd,nfds;
+    char buf[2048];
     struct epoll_event ev,events[5];//ev用于注册事件，数组用于返回要处理的事件
     epfd=epoll_create(1);//只需要监听一个描述符——标准输入
     ev.data.fd=STDIN_FILENO;
@@ -73,8 +74,10 @@ void testEpoll(){
 	     nfds=epoll_wait(epfd,events,5,-1);
 	     for(int i=0;i<nfds;i++)
 	     {
-	        if(events[i].data.fd==STDIN_FILENO)
+	        if(events[i].data.fd==STDIN_FILENO){
+	        	read(events[i].data.fd,buf,2048);
 	           cout<<"hello world!"<<endl;
+	        }
 	     }
    	}
 }
