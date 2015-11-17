@@ -75,7 +75,9 @@ void testEpoll(){
 	     for(int i=0;i<nfds;i++)
 	     {
 	        if(events[i].data.fd==STDIN_FILENO){
-	        	read(events[i].data.fd,buf,5);
+	        	int c=read(events[i].data.fd,buf,5);
+	        	if(buf[c-1]=='\n')
+	        		buf[c-1]='\0';
 	           cout<<buf<<endl;
 	        }
 	     }
