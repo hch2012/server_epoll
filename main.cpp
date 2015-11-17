@@ -10,6 +10,7 @@
 using namespace std;
 SqlPool* pool=NULL;
 void testThreadPool(int argc, char const *argv[]);
+void testEpoll();
 void* insert(void* args){
 	//printf("111");
 	char sql[]="insert into bbb(name) values('ccc')";
