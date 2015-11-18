@@ -7,6 +7,7 @@
 #include "one_task.h"
 #include <sstream>
 #include <sys/epoll.h>
+#define MAXN 8
 using namespace std;
 SqlPool* pool=NULL;
 void testThreadPool(int argc, char const *argv[]);
@@ -63,18 +64,27 @@ void testSqlPool(int argc, char const *argv[]){
 }
 void testEpoll(){
     int epfd,nfds;
+    char* buff;
     struct epoll_event ev,events[5];//ev用于注册事件，数组用于返回要处理的事件
     epfd=epoll_create(1);//只需要监听一个描述符——标准输出
     ev.data.fd=STDOUT_FILENO;
-    ev.events=EPOLLOUT|EPOLLET;//监听读状态同时设置ET模式
+    ev.events=EPOLLIN|EPOLLET;//监听读状态同时设置ET模式
     epoll_ctl(epfd,EPOLL_CTL_ADD,STDOUT_FILENO,&ev);//注册epoll事件
     for(;;)
    {
       nfds=epoll_wait(epfd,events,5,-1);
       for(int i=0;i<nfds;i++)
      {
-         if(events[i].data.fd==STDOUT_FILENO)
-             cout<<"hello world!"<<endl;
+         if(events[i].data.fd==STDOUT_FILENO){
+         	int n=0;
+         	int readn=0;
+         	while(readn=read(events[i].data.fd,buff+n,MAXN)>0){
+         		if(readn<MAXN)
+         			break;
+         		n+=readn;
+         	}
+         	cout<<buff<<endl;
+         }
      }
    }
 }
