@@ -64,7 +64,7 @@ void testSqlPool(int argc, char const *argv[]){
 }
 void testEpoll(){
     int epfd,nfds;
-    char* buff;
+    char* buff=(char*)malloc(16*sizeof(char));
     struct epoll_event ev,events[5];//ev用于注册事件，数组用于返回要处理的事件
     epfd=epoll_create(1);//只需要监听一个描述符——标准输出
     ev.data.fd=STDOUT_FILENO;
@@ -78,7 +78,7 @@ void testEpoll(){
          if(events[i].data.fd==STDOUT_FILENO){
          	int n=0;
          	int readn=0;
-         	while(readn=read(events[i].data.fd,buff+n,MAXN)>0){
+         	while((readn=read(events[i].data.fd,buff+n,MAXN))>0){
          		if(readn<MAXN)
          			break;
          		n+=readn;
