@@ -79,10 +79,12 @@ void testEpoll(){
          	int n=0;
          	int readn=0;
          	while((readn=read(events[i].data.fd,buff+n,MAXN))>0){
+         		n+=readn;
          		if(readn<MAXN)
          			break;
-         		n+=readn;
          	}
+         	if(buff[n-1]=='\n')
+         		buff[n-1]='\0';
          	cout<<buff<<endl;
          }
      }
